@@ -1,11 +1,11 @@
 <h2>Weine hinzufügen</h2>
-<div class="microphone-button">
-    <!-- Microphone button for starting/stopping the recording -->
-     <p>
-      <strong>Welche Weine möchtest du in deinen Weinkeller hinzufügen?</strong>
-     </p>
-    <button (click)="isRecording ? stopRecording() : startRecording()">
-      {{ isRecording ? 'Aufnahme stoppen' : 'Aufnahme starten' }}
-    </button>
-  </div>
-  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
+<div class="microphone-button-container">
+    <div class="microphone-button">
+        <p><strong>Welche Weine möchtest du in deinen Weinkeller hinzufügen?</strong></p>
+        <button class="record-button" (click)="isRecording ? stopRecording() : startRecording()">
+            <i class="{{ isRecording ? 'bi bi-stop-fill' : 'bi bi-mic-fill' }}"></i>
+        </button>
+    </div>
+</div>
