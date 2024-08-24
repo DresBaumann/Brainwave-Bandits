@@ -1,71 +1,30 @@
 ﻿# BrainwaveBandits.WinerR
 
-The project was generated using the [Clean.Architecture.Solution.Template](https://github.com/jasontaylordev/BrainwaveBandits.WinerR) version 8.0.5.
 
-## Build
+## ML Backend
 
-Run `dotnet build -tl` to build the solution.
+### Wine-Food Pairing Model
+![Model Architecture](assets/mod_arc.png)
+Machine learning model designed to predict whether a specific wine and food pairing is a good match.
+The model is a neural network which compromises both food (text) and wine embedding. The architecture in details:
 
-## Run
+- Text Embedding: Converts the food description (e.g., "Grilled fish with rice") into an embedding using a pre-trained language model (bge-small-en-v1.5). This helps the model understand the food context in a way that a machine can process.
 
-To run the web application:
+- Wine Embedding: Converts wine features (like Type, ABV, Body, Acidity) into an embedding using a custom projection layer. This allows the model to represent the characteristics of the wine in a format that can be compared to the food embedding.
 
-```bash
-cd .\src\Web\
-dotnet watch run
-```
+- Concatenation: Combines the food and wine embeddings into a single vector that represents the pairing of the two.
 
-Navigate to https://localhost:5001. The application will automatically reload if you change any of the source files.
+- Classification Layers: Uses fully connected layers to analyze the combined embeddings and output 0 or 1 whether the wine matches the food
 
-## Code Styles & Formatting
 
-The template includes [EditorConfig](https://editorconfig.org/) support to help maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs. The **.editorconfig** file defines the coding styles applicable to this solution.
+The model is trained on 100k pairs from X-wine dataset (https://www.mdpi.com/2504-2289/7/1/20)
 
-## Code Scaffolding
+### Audio Transcription and Wine Name Extraction (audiowine.py)
+This feature is designed to allow users to verbally describe wines in an audio recording. The system then transcribes the audio, extracts the mentioned wine names, and matches these names against a wine database. This is particularly useful for scenarios where a user is has is wines in front of him and want to insert them in the app.
 
-The template includes support to scaffold new commands and queries.
+Components:
+- Transcribe Audio: Converts spoken words from an audio file into text using a speech-to-text model. This allows the system to process spoken descriptions or reviews of wines. It uses Whisper from OpenAI
 
-Start in the `.\src\Application\` folder.
+- Extract Wine Names: Automatically identifies and extracts wine names from the transcribed text. This step is crucial for recognizing which specific wines are being discussed. It uses GPT-4o from OpenAI
 
-Create a new command:
-
-```
-dotnet new ca-usecase --name CreateTodoList --feature-name TodoLists --usecase-type command --return-type int
-```
-
-Create a new query:
-
-```
-dotnet new ca-usecase -n GetTodos -fn TodoLists -ut query -rt TodosVm
-```
-
-If you encounter the error *"No templates or subcommands found matching: 'ca-usecase'."*, install the template and try again:
-
-```bash
-dotnet new install Clean.Architecture.Solution.Template::8.0.5
-```
-
-## Test
-
-The solution contains unit, integration, functional, and acceptance tests.
-
-To run the unit, integration, and functional tests (excluding acceptance tests):
-```bash
-dotnet test --filter "FullyQualifiedName!~AcceptanceTests"
-```
-
-To run the acceptance tests, first start the application:
-
-```bash
-cd .\src\Web\
-dotnet run
-```
-
-Then, in a new console, run the tests:
-```bash
-cd .\src\Web\
-dotnet test
-```
-
-## Help
-To learn more about the template go to the [project website](https://github.com/jasontaylordev/CleanArchitecture). Here you can find additional guidance, request new features, report a bug, and discuss the template with other users.
+- Match Wine Names: Matches the extracted wine names against a database of known wines to find the closest match. This helps in identifying the exact wines being referenced, even if the names are mentioned with slight variations.
