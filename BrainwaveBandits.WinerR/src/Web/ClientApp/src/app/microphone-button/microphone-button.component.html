@@ -1,0 +1,7 @@
+<div class="microphone-button">
+    <!-- Microphone button for starting/stopping the recording -->
+    <button (click)="isRecording ? stopRecording() : startRecording()">
+      {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
+    </button>
+  </div>
+  
