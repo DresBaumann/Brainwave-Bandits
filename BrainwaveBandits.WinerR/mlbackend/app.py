@@ -5,8 +5,10 @@ from audiowine import audio_to_wines
 from predictor import predict_pairing, get_label_encoders
 import logging
 
-logging.basicConfig(level=logging.DEBUG,  # Set the minimum log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the minimum log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 # Flask app
@@ -20,8 +22,8 @@ label_encoders = get_label_encoders()
 def predict():
     data = request.json
 
-    logging.debug(data);
-    
+    logging.debug(data)
+
     food_description = data["MainIngredient"]["Name"]
     wine_features_df = pd.read_csv("data/wine_small.csv")[
         ["Type", "Elaborate", "Body", "Acidity", "ABV"]
