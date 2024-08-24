@@ -21,18 +21,27 @@ public class GetWineRecommendationQueryHandler : IRequestHandler<GetWineRecommen
 
     public async Task<Collection<WineBriefDto>> Handle(GetWineRecommendationQuery request, CancellationToken cancellationToken)
     {
-        var recipe = await _sender.Send(new GetRecipeFromDishNameQuery() { DishName = request.DishName }, cancellationToken);
-
-
+        var recipe = await _sender.Send(new GetRecipeFromDishNameQuery { DishName = request.DishName }, cancellationToken);
+        
         List<int> recommendedWineIds = await _recommenderService.GetWineRecommendationsAsync(recipe);
-
-        Collection<Wine> wines = await _sender.Send(new GetWinesFromIdsQuery(), cancellationToken);
-        // Get wines from DB with Integer
-        // Use Query 
-
-
-        // map wines
-
-        return new Collection<WineBriefDto>();
+        
+        var wines = await _sender.Send(new GetWinesFromIdsQuery { Ids = new Collection<int>(recommendedWineIds) }, cancellationToken);
+        
+        Collection<WineBriefDto> recommendedWines = new Collection<WineBriefDto>();
+        
+        foreach (Wine wine in wines)
+        {
+            recommendedWines.Add(new WineBriefDto
+            {
+                Amount = wine.Amount,
+                Brand = wine.Brand,
+                Id = wine.Id,
+                Name = wine.Name,
+                Vintage = wine.Vintage
+            });
+        }
+        
+        return recommendedWines;
     }
+
 }
