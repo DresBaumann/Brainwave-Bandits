@@ -6,7 +6,7 @@ public class WineBriefDto
 {
     public int Id { get; init; }
 
-    public int WineId { get; init; }
+    public string WineId { get; init; } = null!;
 
     public required string Name { get; init; }
 

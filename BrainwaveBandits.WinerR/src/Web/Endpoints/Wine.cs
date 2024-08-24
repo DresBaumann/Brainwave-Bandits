@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using BrainwaveBandits.WinerR.Application.Common.Models;
+using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateOrUpdateWinesByIdList;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.DeleteWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.UpdateWine;
@@ -42,6 +43,7 @@ public class Wines : EndpointGroupBase
     public async Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
     {
 
+        var matchedWinesIds = new List<string>();
         using (var memoryStream = new MemoryStream())
         {
             await file.CopyToAsync(memoryStream);
@@ -52,18 +54,14 @@ public class Wines : EndpointGroupBase
                 ContentType = file.ContentType
             };
 
-            var result = await sender.Send(new UploadAudioFileCommand(audioFileDto));
-
-            if (result == "File uploaded successfully")
-                return 1;
+            matchedWinesIds = await sender.Send(new UploadAudioFileCommand(audioFileDto));
 
         }
 
+        await sender.Send(new CreateOrUpdateWinesByIdListCommand { WineIdList = matchedWinesIds });
+
         return 1;
-
-        // Call Whisper pass Audio file
-
-        // Call 
+        
     }
 
 

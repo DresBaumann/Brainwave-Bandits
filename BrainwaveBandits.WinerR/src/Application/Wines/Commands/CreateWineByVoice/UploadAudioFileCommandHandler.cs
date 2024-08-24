@@ -1,10 +1,6 @@
-﻿using System.Net.Http.Headers;
-using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
-using BrainwaveBandits.WinerR.Domain.Entities;
-using BrainwaveBandits.WinerR.Domain.Events;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Net.Http.Json;
 
-public class UploadAudioFileCommandHandler : IRequestHandler<UploadAudioFileCommand, string>
+public class UploadAudioFileCommandHandler : IRequestHandler<UploadAudioFileCommand, List<string>>
 {
     private readonly HttpClient _httpClient;
 
@@ -13,29 +9,55 @@ public class UploadAudioFileCommandHandler : IRequestHandler<UploadAudioFileComm
         _httpClient = httpClient;
     }
 
-    public async Task<string> Handle(UploadAudioFileCommand request, CancellationToken cancellationToken)
+    public async Task<List<string>> Handle(UploadAudioFileCommand request, CancellationToken cancellationToken)
     {
         if (request.File == null || request.File.FileContent == null || request.File.FileContent.Length == 0)
-            return "No file uploaded";
+            throw new ArgumentException("No file uploaded");
 
-        // Prepare the request content
-        var content = new MultipartFormDataContent();
+        // Prepare the raw audio content
         var fileContent = new ByteArrayContent(request.File.FileContent);
 
-        // Set the correct content type (adjust based on the actual file type)
-        fileContent.Headers.ContentType = new MediaTypeHeaderValue("audio/wav"); // Set appropriate MIME type for audio file
+        // Set the content type to audio/wav
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("audio/wav");
 
-        // Add the file to the multipart form data with the correct field name
-        content.Add(fileContent, "audio_file", request.File.FileName); // Ensure "audio_file" matches the Flask server
+        // Send the raw audio file directly in the body of the request
+        var response = await _httpClient.PostAsync("http://localhost:5002/audiowines", fileContent, cancellationToken);
 
-        // Send the file to the Flask API
-        var response = await _httpClient.PostAsync("http://localhost:5002/audiowines", content, cancellationToken);
-
-        if (response.IsSuccessStatusCode)
+        // Ensure the request was successful
+        if (!response.IsSuccessStatusCode)
         {
-            return "File uploaded successfully";
+            throw new HttpRequestException($"Failed to upload file. Status Code: {response.StatusCode}");
         }
 
-        return $"Failed to upload file. Status Code: {response.StatusCode}";
+        // Deserialize the JSON response
+        var responseJson = await response.Content.ReadFromJsonAsync<AudioWineResponse>(cancellationToken: cancellationToken);
+
+        // Check if the response is valid
+        if (responseJson == null || responseJson.MatchedWines == null)
+        {
+            throw new InvalidOperationException("Invalid response from the server.");
+        }
+
+        // Return matched wines as a list of strings with WineName and WineID
+        var matchedWinesList = new List<string>();
+        foreach (var wine in responseJson.MatchedWines)
+        {
+            matchedWinesList.Add($"{wine.WineName} - {wine.WineID}");
+        }
+
+        return matchedWinesList;
     }
+}
+
+// Define the corresponding models for deserialization
+public class MatchedWine
+{
+    public string WineName { get; set; } = null!;
+    public string WineID { get; set; } = null!;
+}
+
+public class AudioWineResponse
+{
+    public List<MatchedWine> MatchedWines { get; set; } = null!;
+    public List<MatchedWine> NonMatchedWines { get; set; } = null!;
 }

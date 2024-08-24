@@ -3,12 +3,7 @@ import pandas as pd
 import numpy as np
 from audiowine import audio_to_wines
 from predictor import predict_pairing, get_label_encoders
-import logging
-
-logging.basicConfig(
-    level=logging.DEBUG,  # Set the minimum log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+import os
 
 
 # Flask app
@@ -21,10 +16,7 @@ label_encoders = get_label_encoders()
 @app.route("/predictwine", methods=["POST"])
 def predict():
     data = request.json
-
-    logging.debug(data)
-
-    food_description = data["MainIngredient"]["Name"]
+    food_description = data["mainIngredient"]["name"]
     wine_features_df = pd.read_csv("data/wine_small.csv")[
         ["Type", "Elaborate", "Body", "Acidity", "ABV"]
     ]
@@ -50,18 +42,43 @@ def predict():
 
     return jsonify(results)
 
-
 @app.route("/audiowines", methods=["POST"])
 def predict_audio():
-    data = request.json
-    audio_path = data["audio_path"]
-    matched_wines, non_matched_wines = audio_to_wines(audio_path)
-    return jsonify(
-        {
-            "matched_wines": matched_wines,
-            "non_matched_wines": list(non_matched_wines),
-        }
-    )
+    try:
+        # Check if content-type is correct
+        if request.content_type != 'audio/wav':
+            return jsonify({"error": "Unsupported Media Type"}), 415
+
+        # Ensure the directory exists or create a temp folder in the current directory
+        audio_dir = os.path.join(os.getcwd(), "uploaded_audio")
+        os.makedirs(audio_dir, exist_ok=True)  # Create the directory if it doesn't exist
+
+        # Save the raw audio data to a file
+        audio_path = os.path.join(audio_dir, "uploaded_audio.wav")
+        with open(audio_path, "wb") as f:
+            f.write(request.data)
+
+        # Process the audio file and get predictions
+        matched_wines, non_matched_wines = audio_to_wines(audio_path)
+        
+        print(jsonify({
+            "MatchedWines": matched_wines,
+            "NonMatchedWines": list(non_matched_wines)
+        }))
+
+        return jsonify({
+            "MatchedWines": matched_wines,
+            "NonMatchedWines": list(non_matched_wines)
+        })
+
+    except Exception as e:
+        # Log the error
+        app.logger.error(f"Error processing the audio file: {str(e)}")
+        return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
+
+
+
+
 
 
 if __name__ == "__main__":
