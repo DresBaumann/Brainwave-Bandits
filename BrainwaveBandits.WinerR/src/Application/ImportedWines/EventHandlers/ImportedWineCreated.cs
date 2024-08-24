@@ -1,5 +1,4 @@
-﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Commands.CreateImportedWine;
-using BrainwaveBandits.WinerR.Domain.Events;
+﻿using BrainwaveBandits.WinerR.Domain.Events;
 using Microsoft.Extensions.Logging;
 
 namespace BrainwaveBandits.WinerR.Application.Wines.EventHandlers;

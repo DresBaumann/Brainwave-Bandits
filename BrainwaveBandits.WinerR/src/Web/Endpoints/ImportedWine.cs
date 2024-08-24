@@ -1,4 +1,4 @@
-﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Queries;
+﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Queries.SearchImportedWines;
 
 namespace BrainwaveBandits.WinerR.Web.Endpoints;
 

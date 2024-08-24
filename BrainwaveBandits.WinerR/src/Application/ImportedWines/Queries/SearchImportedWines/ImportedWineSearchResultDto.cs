@@ -1,4 +1,4 @@
-﻿namespace BrainwaveBandits.WinerR.Application.ImportedWines.Queries;
+﻿namespace BrainwaveBandits.WinerR.Application.ImportedWines.Queries.SearchImportedWines;
 public class ImportedWineSearchResultDto
 {
     public required string WineId { get; init; }
