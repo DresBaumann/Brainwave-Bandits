@@ -14,13 +14,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WinesClient } from './web-api-client';
 import { WinelistComponent } from './winelist/winelist.component';
 import { CommonModule } from '@angular/common';
+import { MicrophoneButtonComponent } from './microphone-button/microphone-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    WinelistComponent
+    WinelistComponent,
+    MicrophoneButtonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
