@@ -19,7 +19,7 @@ public static class IEndpointRouteBuilderExtensions
         Guard.Against.AnonymousMethod(handler);
 
         builder.MapPost(pattern, handler)
-            .WithName(handler.Method.Name);
+            .WithName(handler.Method.Name).DisableAntiforgery();
 
         return builder;
     }

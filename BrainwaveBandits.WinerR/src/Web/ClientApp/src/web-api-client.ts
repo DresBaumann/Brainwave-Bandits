@@ -658,6 +658,46 @@ export class WinesClient {
         return Promise.resolve<WineBriefDto[]>(null as any);
     }
 
+    createWineByVoice(file: FileParameter | null | undefined): Promise<number> {
+        let url_ = this.baseUrl + "/api/Wines/voice";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateWineByVoice(_response);
+        });
+    }
+
+    protected processCreateWineByVoice(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
     updateWine(id: number, command: UpdateWineCommand): Promise<void> {
         let url_ = this.baseUrl + "/api/Wines/{id}";
         if (id === undefined || id === null)
@@ -1674,6 +1714,11 @@ export interface IUpdateWineCommand {
     vintage?: number;
     amount?: number;
     done?: boolean;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class SwaggerException extends Error {

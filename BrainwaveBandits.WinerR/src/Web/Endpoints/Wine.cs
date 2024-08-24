@@ -17,6 +17,7 @@ public class Wines : EndpointGroupBase
         app.MapGroup(this)
             .MapGet(GetWinesWithPagination)
             .MapGet(RecommendWine, "/recommend")
+            .MapPost(CreateWineByVoice, "/voice")
             .MapPost(CreateWine)
             .MapPut(UpdateWine, "{id}")
             .MapDelete(DeleteWine, "{id}");
@@ -37,16 +38,32 @@ public class Wines : EndpointGroupBase
         return sender.Send(command);
     }
 
-    public Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
+    [IgnoreAntiforgeryToken]
+    public async Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
     {
-        var content = new MultipartFormDataContent(); 
-        var fileContent = new StreamContent(file.OpenReadStream());
+
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.CopyToAsync(memoryStream);
+            var audioFileDto = new AudioFileDto
+            {
+                FileName = file.FileName,
+                FileContent = memoryStream.ToArray(),
+                ContentType = file.ContentType
+            };
+
+            var result = await sender.Send(new UploadAudioFileCommand(audioFileDto));
+
+            if (result == "File uploaded successfully")
+                return 1;
+
+        }
+
+        return 1;
 
         // Call Whisper pass Audio file
 
         // Call 
-        
-        return Task.FromResult(1);
     }
 
 

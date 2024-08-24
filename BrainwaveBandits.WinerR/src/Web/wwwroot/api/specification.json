@@ -495,6 +495,43 @@
         }
       }
     },
+    "/api/Wines/voice": {
+      "post": {
+        "tags": [
+          "Wines"
+        ],
+        "operationId": "CreateWineByVoice",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Wines/{id}": {
       "put": {
         "tags": [
