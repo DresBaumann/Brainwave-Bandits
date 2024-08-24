@@ -1,8 +1,10 @@
-﻿using BrainwaveBandits.WinerR.Application.Common.Models;
+﻿using System.Net.Sockets;
+using BrainwaveBandits.WinerR.Application.Common.Models;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.DeleteWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.UpdateWine;
 using BrainwaveBandits.WinerR.Application.Wines.Queries.GetWinesWithPagination;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BrainwaveBandits.WinerR.Web.Endpoints;
 
@@ -31,6 +33,21 @@ public class Wines : EndpointGroupBase
     {
         return sender.Send(command);
     }
+
+    public Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
+    {
+
+        using (var client = new HttpClient())
+        {
+            var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(file.OpenReadStream());
+
+
+            
+        }
+        return Task.FromResult(1);
+    }
+
 
     public async Task<IResult> UpdateWine(ISender sender, int id, UpdateWineCommand command)
     {
