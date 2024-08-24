@@ -15,6 +15,7 @@ import { WinesClient } from './web-api-client';
 import { WinelistComponent } from './winelist/winelist.component';
 import { CommonModule } from '@angular/common';
 import { MicrophoneButtonComponent } from './microphone-button/microphone-button.component';
+import { SearchPageComponent } from './search-page/search-page.component'; 
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MicrophoneButtonComponent } from './microphone-button/microphone-button
     NavMenuComponent,
     HomeComponent,
     WinelistComponent,
-    MicrophoneButtonComponent
+    MicrophoneButtonComponent,
+    SearchPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +32,8 @@ import { MicrophoneButtonComponent } from './microphone-button/microphone-button
     FormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: '/winelist', pathMatch: 'full' },
-      { path: 'winelist', component: WinelistComponent }
+      { path: 'winelist', component: WinelistComponent },
+      { path: 'search', component: SearchPageComponent }
     ]),
     BrowserAnimationsModule,
     ModalModule.forRoot(),
