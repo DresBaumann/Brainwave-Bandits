@@ -923,8 +923,7 @@
             "format": "int32"
           },
           "wineId": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string"
           },
           "name": {
             "type": "string"
