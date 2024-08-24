@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -15,6 +15,7 @@ import { WinesClient } from './web-api-client';
 import { WinelistComponent } from './winelist/winelist.component';
 import { CommonModule } from '@angular/common';
 import { MicrophoneButtonComponent } from './microphone-button/microphone-button.component';
+import { WinesearchComponent } from './winesearch/winesearch.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MicrophoneButtonComponent } from './microphone-button/microphone-button
     NavMenuComponent,
     HomeComponent,
     WinelistComponent,
-    MicrophoneButtonComponent
+    MicrophoneButtonComponent,
+    WinesearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,7 +36,8 @@ import { MicrophoneButtonComponent } from './microphone-button/microphone-button
     ]),
     BrowserAnimationsModule,
     ModalModule.forRoot(),
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

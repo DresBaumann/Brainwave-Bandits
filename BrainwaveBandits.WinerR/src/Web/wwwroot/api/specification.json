@@ -532,6 +532,31 @@
         }
       }
     },
+    "/api/Wines/createorupdate": {
+      "post": {
+        "tags": [
+          "Wines"
+        ],
+        "operationId": "CreateOrUpdateWineByWinesIdList",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateWinesByIdListCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/Wines/{id}": {
       "put": {
         "tags": [
@@ -966,6 +991,18 @@
           "amount": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CreateOrUpdateWinesByIdListCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "wineIdList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

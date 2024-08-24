@@ -20,6 +20,7 @@ public class Wines : EndpointGroupBase
             .MapGet(RecommendWine, "/recommend")
             .MapPost(CreateWineByVoice, "/voice")
             .MapPost(CreateWine)
+            .MapPost(CreateOrUpdateWineByWinesIdList, "/createorupdate")
             .MapPut(UpdateWine, "{id}")
             .MapDelete(DeleteWine, "{id}");
     }
@@ -75,6 +76,12 @@ public class Wines : EndpointGroupBase
     public async Task<IResult> DeleteWine(ISender sender, int id)
     {
         await sender.Send(new DeleteWineCommand(id));
+        return Results.NoContent();
+    }
+
+    public async Task<IResult> CreateOrUpdateWineByWinesIdList(ISender sender, CreateOrUpdateWinesByIdListCommand command)
+    {
+        await sender.Send(command);
         return Results.NoContent();
     }
 }

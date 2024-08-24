@@ -28,6 +28,7 @@ public class GetImportedWinesByIdListQueryHandler : IRequestHandler<GetImportedW
         List<ImportedWine> searchResults = await _context
             .ImportedWines
             .Where(m => request.WineIdList.Contains(m.WineID))
+            .Take(50)
             .ToListAsync();
 
         if (searchResults == null || !searchResults.Any())

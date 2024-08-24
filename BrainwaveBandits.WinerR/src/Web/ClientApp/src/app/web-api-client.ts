@@ -744,6 +744,7 @@ export interface IWinesClient {
     createWine(command: CreateWineCommand): Observable<number>;
     recommendWine(dishName: string | null): Observable<WineBriefDto[]>;
     createWineByVoice(file: FileParameter | null | undefined): Observable<number>;
+    createOrUpdateWineByWinesIdList(command: CreateOrUpdateWinesByIdListCommand): Observable<void>;
     updateWine(id: number, command: UpdateWineCommand): Observable<void>;
     deleteWine(id: number): Observable<void>;
 }
@@ -974,6 +975,54 @@ export class WinesClient implements IWinesClient {
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
     
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    createOrUpdateWineByWinesIdList(command: CreateOrUpdateWinesByIdListCommand): Observable<void> {
+        let url_ = this.baseUrl + "/api/Wines/createorupdate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrUpdateWineByWinesIdList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrUpdateWineByWinesIdList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateOrUpdateWineByWinesIdList(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1967,6 +2016,50 @@ export interface ICreateWineCommand {
     brand?: string | undefined;
     vintage?: number;
     amount?: number;
+}
+
+export class CreateOrUpdateWinesByIdListCommand implements ICreateOrUpdateWinesByIdListCommand {
+    wineIdList?: string[];
+
+    constructor(data?: ICreateOrUpdateWinesByIdListCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["wineIdList"])) {
+                this.wineIdList = [] as any;
+                for (let item of _data["wineIdList"])
+                    this.wineIdList!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateOrUpdateWinesByIdListCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrUpdateWinesByIdListCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.wineIdList)) {
+            data["wineIdList"] = [];
+            for (let item of this.wineIdList)
+                data["wineIdList"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface ICreateOrUpdateWinesByIdListCommand {
+    wineIdList?: string[];
 }
 
 export class UpdateWineCommand implements IUpdateWineCommand {

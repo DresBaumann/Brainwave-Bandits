@@ -1,0 +1,25 @@
+<h2>Textsuche</h2>
+
+<div class="wine-search">
+    <input type="text" [formControl]="searchControl" placeholder="Weinname, Weingut">
+    <div *ngIf="loading" class="spinner"></div> <!-- Loading spinner during search -->
+</div>
+
+<table *ngIf="!loading && wines.length > 0" class="table"> <!-- Hide table when loading -->
+    <thead>
+        <tr>
+            <th>Wein</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let wine of wines">
+            <td>{{ wine.wineId }}</td>
+            <td>{{ wine.title }}</td>
+            <td>
+                <button (click)="addWine(wine.wineId)" [disabled]="loading">Hinzufügen</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
