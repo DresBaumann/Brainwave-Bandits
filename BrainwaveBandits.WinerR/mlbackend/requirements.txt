@@ -1,0 +1,7 @@
+Flask
+numpy
+openai==1.42.0
+pandas
+torch
+transformers
+difflib

@@ -3,6 +3,7 @@ using BrainwaveBandits.WinerR.Infrastructure.Data;
 using BrainwaveBandits.WinerR.Infrastructure.Data.Configurations;
 using BrainwaveBandits.WinerR.Infrastructure.Data.Interceptors;
 using BrainwaveBandits.WinerR.Infrastructure.Identity;
+using BrainwaveBandits.WinerR.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -41,10 +42,12 @@ public static class DependencyInjection
         services.AddTransient<IIdentityService, IdentityService>();
 
         services.AddScoped<IOpenAIService, OpenAIService>();
-
-
         services.Configure<OpenAiOptions>(configuration.GetSection("OpenAI"));
-        services.AddScoped<IOpenAIService, OpenAIService>();
+
+
+        services.Configure<RecommenderSystemOptions>(configuration.GetSection("RecommenderSystemOptions"));
+        services.AddHttpClient<IRecommenderService, RecommenderService>();
+
 
 
         return services;
