@@ -1,4 +1,5 @@
 using BrainwaveBandits.WinerR.Infrastructure.Data;
+using BrainwaveBandits.WinerR.Web.Tasks.ImportWine;
 using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,16 @@ app.UseExceptionHandler(options => { });
 app.MapEndpoints();
 
 app.UseHangfireDashboard();
+
+var isRunningInNSwag = Environment.GetEnvironmentVariable("NSwagRunning") == "true";
+
+if (!isRunningInNSwag)
+{
+    RecurringJob.AddOrUpdate<ImportWineTask>(
+        "Import Wines",
+        task => task.ExecuteAsync(),
+        Cron.Daily);
+}
 
 app.Run();
 
