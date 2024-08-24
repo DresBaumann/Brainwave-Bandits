@@ -98,37 +98,45 @@
 
 .wine-card {
   background-color: #f8f9fa;
-  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
+  width: 300px;
   text-align: left;
   transition: transform 0.3s ease;
+  overflow: hidden; /* Ensure the image fills the top part and nothing overflows */
+  display: flex;
+  flex-direction: column; /* Ensure the image is on top */
 }
 
 .wine-card:hover {
   transform: translateY(-5px);
 }
 
-.wine-card h3 {
+/* Styling for wine image */
+.wine-image {
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  object-fit: cover; /* Ensure the image fills the area without stretching */
+  display: block;
+}
+
+/* Wine information below the image */
+.wine-info {
+  padding: 20px; /* Padding for the text content */
+}
+
+.wine-info h3 {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-.wine-card p {
+.wine-info p {
   font-size: 16px;
   color: #6c757d;
 }
 
-.wine-card p strong {
+.wine-info p strong {
   font-weight: bold;
-}
-
-/* Styling for wine image */
-.wine-image {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
 }
 
 /* Loading screen */
