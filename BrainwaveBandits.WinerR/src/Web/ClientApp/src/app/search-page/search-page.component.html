@@ -1,19 +1,24 @@
 <div class="search-page-container">
   <!-- Search Bar Section -->
   <div class="search-bar">
-    <label for="dish-search">Enter Dish Name:</label>
+    <label for="dish-search">Weinempfehlung</label>
     <div class="input-wrapper">
       <input
         id="dish-search"
         type="text"
         [(ngModel)]="dishName"
-        placeholder="Search for a dish..."
+        placeholder="Suche nach einem Gericht..."
         (keyup.enter)="searchDish()"
       />
       <button (click)="searchDish()">
         <i class="search-icon"></i>
       </button>
     </div>
+  </div>
+
+  <!-- Default image when no search has been made -->
+  <div *ngIf="!isLoading && recommendedWines.length === 0 && !dishName.trim()" class="default-image-container">
+    <img src="assets/wine-background.png" alt="Wine Background" class="default-image">
   </div>
 
   <!-- Loading Section -->
@@ -24,7 +29,7 @@
 
   <!-- Wine Recommendations Section -->
   <div class="wine-results" *ngIf="!isLoading && recommendedWines.length > 0">
-    <h2>Recommended Wines</h2>
+    <h2>Passend für dein Gericht</h2>
     <div class="wine-cards">
       <div class="wine-card" *ngFor="let wine of recommendedWines">
         <img
