@@ -3,7 +3,7 @@ using BrainwaveBandits.WinerR.Application.Helpers;
 using BrainwaveBandits.WinerR.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using BrainwaveBandits.WinerR.Domain.Entities;
 
-namespace BrainwaveBandits.WinerR.Application.ImportedWines.Queries;
+namespace BrainwaveBandits.WinerR.Application.ImportedWines.Queries.SearchImportedWines;
 public record SearchImportedWinesQuery : IRequest<IEnumerable<ImportedWineSearchResultDto>>
 {
     public required string SearchQuery { get; init; }
@@ -34,7 +34,7 @@ public class SearchImportedWinesQueryHandler : IRequestHandler<SearchImportedWin
             return searchResults.Select(x => new ImportedWineSearchResultDto
             {
                 WineId = x.WineID,
-                Title = $"{ x.WineryName } - { x.WineName }"
+                Title = $"{x.WineryName} - {x.WineName}"
             });
         }
 
