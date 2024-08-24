@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BrainwaveBandits.WinerR.Application.Common.Interfaces;
-using BrainwaveBandits.WinerR.Application.ImportedWines.Queries.GetImportedWinesByIdList;
+﻿using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.UpdateWine;
 using BrainwaveBandits.WinerR.Domain.Entities;
-using BrainwaveBandits.WinerR.Domain.Events;
 
 namespace BrainwaveBandits.WinerR.Application.Wines.Commands.CreateOrUpdateWinesByIdList;
 public record CreateOrUpdateWinesByIdListCommand : IRequest<List<int>>

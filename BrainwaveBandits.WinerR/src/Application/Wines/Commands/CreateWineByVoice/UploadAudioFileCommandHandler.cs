@@ -42,7 +42,7 @@ public class UploadAudioFileCommandHandler : IRequestHandler<UploadAudioFileComm
         var matchedWinesList = new List<string>();
         foreach (var wine in responseJson.MatchedWines)
         {
-            matchedWinesList.Add($"{wine.WineName} - {wine.WineID}");
+            matchedWinesList.Add(wine.WineID);
         }
 
         return matchedWinesList;
