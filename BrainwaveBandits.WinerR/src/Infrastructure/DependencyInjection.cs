@@ -44,8 +44,10 @@ public static class DependencyInjection
 
 
         services.Configure<OpenAiOptions>(configuration.GetSection("OpenAI"));
-        services.AddScoped<IOpenAIService, OpenAIService>();
 
+
+        services.Configure<RecommenderSystemOptions>(configuration.GetSection("Recommender"));
+        services.AddScoped<IOpenAIService, OpenAIService>();
 
         return services;
     }

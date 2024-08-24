@@ -23,6 +23,11 @@ public class Wines : EndpointGroupBase
         return sender.Send(query);
     }
 
+    public Task<PaginatedList<WineBriefDto>> Recommend(ISender sender, [AsParameters] GetWinesWithPaginationQuery query)
+    {
+        return sender.Send(query);
+    }
+
     public Task<int> CreateWine(ISender sender, CreateWineCommand command)
     {
         return sender.Send(command);
