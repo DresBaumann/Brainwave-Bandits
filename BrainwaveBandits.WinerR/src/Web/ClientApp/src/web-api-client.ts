@@ -607,6 +607,51 @@ export class WinesClient {
         return Promise.resolve<number>(null as any);
     }
 
+    recommendWine(dishName: string | null): Promise<WineBriefDto[]> {
+        let url_ = this.baseUrl + "/api/Wines/recommend?";
+        if (dishName === undefined)
+            throw new Error("The parameter 'dishName' must be defined.");
+        else if(dishName !== null)
+            url_ += "DishName=" + encodeURIComponent("" + dishName) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processRecommendWine(_response);
+        });
+    }
+
+    protected processRecommendWine(response: Response): Promise<WineBriefDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(WineBriefDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WineBriefDto[]>(null as any);
+    }
+
     updateWine(id: number, command: UpdateWineCommand): Promise<void> {
         let url_ = this.baseUrl + "/api/Wines/{id}";
         if (id === undefined || id === null)
