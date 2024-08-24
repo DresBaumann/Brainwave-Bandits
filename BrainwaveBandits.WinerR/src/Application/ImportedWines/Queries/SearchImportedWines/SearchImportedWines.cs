@@ -27,6 +27,7 @@ public class SearchImportedWinesQueryHandler : IRequestHandler<SearchImportedWin
                         x.WineName.InvariantContains(request.SearchQuery) ||
                         x.WineryName.InvariantContains(request.SearchQuery))
             .OrderBy(x => x.WineryName)
+            .Take(20)
             .ToList();
 
         if (searchResults != null && searchResults.Any())
