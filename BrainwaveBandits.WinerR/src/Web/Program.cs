@@ -8,6 +8,7 @@ builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebServices();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
@@ -18,7 +19,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

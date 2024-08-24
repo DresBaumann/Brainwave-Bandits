@@ -1,6 +1,6 @@
 ﻿using BrainwaveBandits.WinerR.Application.Common.Interfaces;
-using BrainwaveBandits.WinerR.Domain.Constants;
 using BrainwaveBandits.WinerR.Infrastructure.Data;
+using BrainwaveBandits.WinerR.Infrastructure.Data.Configurations;
 using BrainwaveBandits.WinerR.Infrastructure.Data.Interceptors;
 using BrainwaveBandits.WinerR.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -40,8 +40,12 @@ public static class DependencyInjection
         services.AddSingleton(TimeProvider.System);
         services.AddTransient<IIdentityService, IdentityService>();
 
-        services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
+        services.AddScoped<IOpenAIService, OpenAIService>();
+
+
+        services.Configure<OpenAiOptions>(configuration.GetSection("OpenAI"));
+        services.AddScoped<IOpenAIService, OpenAIService>();
+
 
         return services;
     }

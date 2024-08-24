@@ -1,11 +1,9 @@
 ﻿using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 using BrainwaveBandits.WinerR.Application.Common.Models;
-using BrainwaveBandits.WinerR.Application.Common.Security;
 using BrainwaveBandits.WinerR.Domain.Enums;
 
 namespace BrainwaveBandits.WinerR.Application.TodoLists.Queries.GetTodos;
 
-[Authorize]
 public record GetTodosQuery : IRequest<TodosVm>;
 
 public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>

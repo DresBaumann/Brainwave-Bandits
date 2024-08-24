@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using BrainwaveBandits.WinerR.Application.Common.Behaviours;
+using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +15,6 @@ public static class DependencyInjection
         services.AddMediatR(cfg => {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
