@@ -1,8 +1,10 @@
-﻿using System.Net.Sockets;
+﻿using System.Collections.ObjectModel;
+using System.Net.Sockets;
 using BrainwaveBandits.WinerR.Application.Common.Models;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.DeleteWine;
 using BrainwaveBandits.WinerR.Application.Wines.Commands.UpdateWine;
+using BrainwaveBandits.WinerR.Application.Wines.Queries.GetWineRecommendation;
 using BrainwaveBandits.WinerR.Application.Wines.Queries.GetWinesWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +16,7 @@ public class Wines : EndpointGroupBase
     {
         app.MapGroup(this)
             .MapGet(GetWinesWithPagination)
+            .MapGet(RecommendWine, "/recommend")
             .MapPost(CreateWine)
             .MapPut(UpdateWine, "{id}")
             .MapDelete(DeleteWine, "{id}");
@@ -24,7 +27,7 @@ public class Wines : EndpointGroupBase
         return sender.Send(query);
     }
 
-    public Task<PaginatedList<WineBriefDto>> Recommend(ISender sender, [AsParameters] GetWinesWithPaginationQuery query)
+    public Task<Collection<WineBriefDto>> RecommendWine(ISender sender, [AsParameters] GetWineRecommendationQuery query)
     {
         return sender.Send(query);
     }
@@ -36,15 +39,13 @@ public class Wines : EndpointGroupBase
 
     public Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
     {
+        var content = new MultipartFormDataContent(); 
+        var fileContent = new StreamContent(file.OpenReadStream());
 
-        using (var client = new HttpClient())
-        {
-            var content = new MultipartFormDataContent();
-            var fileContent = new StreamContent(file.OpenReadStream());
+        // Call Whisper pass Audio file
 
-
-            
-        }
+        // Call 
+        
         return Task.FromResult(1);
     }
 

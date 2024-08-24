@@ -1,7 +1,8 @@
 Flask
-numpy
+numpy==2.1.0
 openai==1.42.0
-pandas
-torch
-transformers
+pandas==2.2.2
+torch==2.4.0
+transformers==4.44.2
 python-dotenv
+scikit-learn
