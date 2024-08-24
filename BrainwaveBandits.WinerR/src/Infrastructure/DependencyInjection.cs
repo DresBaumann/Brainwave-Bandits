@@ -46,7 +46,7 @@ public static class DependencyInjection
 
 
         services.Configure<RecommenderSystemOptions>(configuration.GetSection("RecommenderSystemOptions"));
-        services.AddScoped<IRecommenderService, RecommenderService>();
+        services.AddHttpClient<IRecommenderService, RecommenderService>();
 
 
 
