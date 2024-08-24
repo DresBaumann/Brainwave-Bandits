@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 using BrainwaveBandits.WinerR.Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace BrainwaveBandits.WinerR.Application.Wines.Queries.GetWinesFromIds.cs;
 
