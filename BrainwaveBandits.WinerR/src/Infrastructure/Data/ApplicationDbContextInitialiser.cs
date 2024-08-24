@@ -110,7 +110,7 @@ public class ApplicationDbContextInitialiser
         {
             _context.Wines.Add(new Wine
             {
-                WineID = "1",
+                WineId = "1",
                 Name = "Giachini Barolo",
                 Brand = "Corino",
                 Vintage = 2018,

@@ -11,7 +11,6 @@ public class Wines : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization()
             .MapGet(GetWinesWithPagination)
             .MapPost(CreateWine)
             .MapPut(UpdateWine, "{id}")

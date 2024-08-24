@@ -1,13 +1,14 @@
-﻿using BrainwaveBandits.WinerR.Domain.Events;
+﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Commands.CreateImportedWine;
+using BrainwaveBandits.WinerR.Domain.Events;
 using Microsoft.Extensions.Logging;
 
 namespace BrainwaveBandits.WinerR.Application.Wines.EventHandlers;
 
-public class ImportedWineCreatedEventHandler : INotificationHandler<ImportedWineCreatedEvent>
+public class ImportWinesCompletedEventHandler : INotificationHandler<ImportedWineCreatedEvent>
 {
     private readonly ILogger<WineCreatedEventHandler> _logger;
 
-    public ImportedWineCreatedEventHandler(ILogger<WineCreatedEventHandler> logger)
+    public ImportWinesCompletedEventHandler(ILogger<WineCreatedEventHandler> logger)
     {
         _logger = logger;
     }

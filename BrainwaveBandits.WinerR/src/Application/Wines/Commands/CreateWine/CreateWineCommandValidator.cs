@@ -4,7 +4,7 @@ public class CreateWineCommandValidator : AbstractValidator<CreateWineCommand>
 {
     public CreateWineCommandValidator()
     {
-        RuleFor(v => v.WineID)
+        RuleFor(v => v.WineId)
             .MaximumLength(50)
             .NotEmpty();
 

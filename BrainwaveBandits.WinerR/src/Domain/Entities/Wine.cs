@@ -1,7 +1,7 @@
 ﻿namespace BrainwaveBandits.WinerR.Domain.Entities;
 public class Wine : BaseAuditableEntity
 {
-    public required string WineID { get; set; } = null!;
+    public required string WineId { get; set; } = null!;
     public required string Name { get; set; } = null!;
     public string? Brand { get; set; } = null!;
     public int Vintage { get; set; } = 0;
