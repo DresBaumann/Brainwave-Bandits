@@ -4,7 +4,8 @@ import { from, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-winelist-component',
-  templateUrl: './winelist.component.html'
+  templateUrl: './winelist.component.html',
+  styleUrls: ['./winelist.component.css']
 })
 export class WinelistComponent implements OnDestroy {
     public wines: PaginatedListOfWineBriefDto = new PaginatedListOfWineBriefDto();// Initialize with empty items array

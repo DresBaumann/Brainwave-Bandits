@@ -1,7 +1,11 @@
+<h2>Weine hinzufügen</h2>
 <div class="microphone-button">
     <!-- Microphone button for starting/stopping the recording -->
+     <p>
+      <strong>Welche Weine möchtest du in deinen Weinkeller hinzufügen?</strong>
+     </p>
     <button (click)="isRecording ? stopRecording() : startRecording()">
-      {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
+      {{ isRecording ? 'Aufnahme stoppen' : 'Aufnahme starten' }}
     </button>
   </div>
   
