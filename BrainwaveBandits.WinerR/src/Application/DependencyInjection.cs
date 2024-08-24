@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using BrainwaveBandits.WinerR.Application.Common.Behaviours;
-using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

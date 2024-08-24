@@ -3,4 +3,3 @@ global using BrainwaveBandits.WinerR.Domain.Entities;
 global using BrainwaveBandits.WinerR.Domain.Enums;
 global using BrainwaveBandits.WinerR.Domain.Events;
 global using BrainwaveBandits.WinerR.Domain.Exceptions;
-global using BrainwaveBandits.WinerR.Domain.ValueObjects;
