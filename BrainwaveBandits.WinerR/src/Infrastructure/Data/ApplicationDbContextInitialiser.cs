@@ -105,5 +105,18 @@ public class ApplicationDbContextInitialiser
 
             await _context.SaveChangesAsync();
         }
+
+        if (!_context.Wines.Any())
+        {
+            _context.Wines.Add(new Wine
+            {
+                Name = "Giachini Barolo",
+                Brand = "Corino",
+                Vintage = 2018,
+                Amount = 1
+            });
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
