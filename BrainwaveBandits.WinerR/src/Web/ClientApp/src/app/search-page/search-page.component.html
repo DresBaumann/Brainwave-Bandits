@@ -17,7 +17,7 @@
   </div>
 
   <!-- Default image when no search has been made -->
-  <div *ngIf="!isLoading && recommendedWines.length === 0 && !dishName.trim()" class="default-image-container">
+  <div *ngIf="!isLoading && recommendedWines.length === 0" class="default-image-container">
     <img src="assets/wine-background.png" alt="Wine Background" class="default-image">
   </div>
 
@@ -38,11 +38,18 @@
           alt="{{ wine.name }}"
           class="wine-image"
         />
+
+        <!-- Favorite Icon -->
+        <div class="favorite-icon"></div>
+
+        <!-- Mark as drunk Icon -->
+        <div class="drunk-icon"></div>
+
         <div class="wine-info">
           <h3>{{ wine.name }}</h3>
-          <p><strong>Brand:</strong> {{ wine.brand || 'N/A' }}</p>
-          <p><strong>Vintage:</strong> {{ wine.vintage || 'N/A' }}</p>
-          <p><strong>Amount:</strong> {{ wine.amount || 'N/A' }}</p>
+          <p><strong>Winzer: </strong> {{ wine.brand || 'N/A' }}</p>
+          <p><strong>Jahrgang: </strong> {{ wine.vintage || 'N/A' }}</p>
+          <p><strong>Bestand: </strong> {{ wine.amount || 'N/A' }}</p>
         </div>
       </div>
     </div>

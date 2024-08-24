@@ -1,29 +1,18 @@
-<header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">BrainwaveBandits.WinerR.Web</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-           [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/winelist']">Weinkeller</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/search']">Empfehlung</a>
-          </li>
-        </ul>
-      </div>
+<footer>
+  <nav class="navbar navbar-expand navbar-light bg-white border-top box-shadow fixed-bottom">
+    <div class="container d-flex justify-content-around">
+      <a class="nav-item nav-link text-center" [routerLink]="['/winelist']" [routerLinkActive]="['link-active']">
+        <i class="fas fa-wine-bottle"></i> <!-- Wine Bottle Icon for "Weinkeller" -->
+        <span>Weinkeller</span>
+      </a>
+      <a class="nav-item nav-link text-center" [routerLink]="['/search']" [routerLinkActive]="['link-active']">
+        <i class="fas fa-search"></i> <!-- Search Icon for "Empfehlung" -->
+        <span>Empfehlung</span>
+      </a>
+      <a class="nav-item nav-link text-center" [routerLink]="['/favorites']" [routerLinkActive]="['link-active']">
+        <i class="fas fa-heart"></i> <!-- Heart Icon for "Favoriten" -->
+        <span>Favoriten</span>
+      </a>
     </div>
   </nav>
-</header>
+</footer>
