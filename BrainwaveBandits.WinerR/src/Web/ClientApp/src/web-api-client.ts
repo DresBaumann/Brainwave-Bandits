@@ -8,6 +8,56 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class ImportedWineClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    import(command: ImportWinesCommand): Promise<number> {
+        let url_ = this.baseUrl + "/api/ImportedWine";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processImport(_response);
+        });
+    }
+
+    protected processImport(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+}
+
 export class RecipeClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -626,6 +676,36 @@ export class WinesClient {
         }
         return Promise.resolve<void>(null as any);
     }
+}
+
+export class ImportWinesCommand implements IImportWinesCommand {
+
+    constructor(data?: IImportWinesCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): ImportWinesCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new ImportWinesCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+export interface IImportWinesCommand {
 }
 
 export class Recipe implements IRecipe {
@@ -1365,6 +1445,7 @@ export interface IPaginatedListOfWineBriefDto {
 
 export class WineBriefDto implements IWineBriefDto {
     id?: number;
+    wineId?: number;
     name?: string;
     brand?: string | undefined;
     vintage?: number;
@@ -1383,6 +1464,7 @@ export class WineBriefDto implements IWineBriefDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.wineId = _data["wineId"];
             this.name = _data["name"];
             this.brand = _data["brand"];
             this.vintage = _data["vintage"];
@@ -1401,6 +1483,7 @@ export class WineBriefDto implements IWineBriefDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["wineId"] = this.wineId;
         data["name"] = this.name;
         data["brand"] = this.brand;
         data["vintage"] = this.vintage;
@@ -1412,6 +1495,7 @@ export class WineBriefDto implements IWineBriefDto {
 
 export interface IWineBriefDto {
     id?: number;
+    wineId?: number;
     name?: string;
     brand?: string | undefined;
     vintage?: number;
@@ -1420,7 +1504,7 @@ export interface IWineBriefDto {
 }
 
 export class CreateWineCommand implements ICreateWineCommand {
-    wineID?: string;
+    wineId?: string;
     name?: string;
     brand?: string | undefined;
     vintage?: number;
@@ -1437,7 +1521,7 @@ export class CreateWineCommand implements ICreateWineCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.wineID = _data["wineID"];
+            this.wineId = _data["wineId"];
             this.name = _data["name"];
             this.brand = _data["brand"];
             this.vintage = _data["vintage"];
@@ -1454,7 +1538,7 @@ export class CreateWineCommand implements ICreateWineCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["wineID"] = this.wineID;
+        data["wineId"] = this.wineId;
         data["name"] = this.name;
         data["brand"] = this.brand;
         data["vintage"] = this.vintage;
@@ -1464,7 +1548,7 @@ export class CreateWineCommand implements ICreateWineCommand {
 }
 
 export interface ICreateWineCommand {
-    wineID?: string;
+    wineId?: string;
     name?: string;
     brand?: string | undefined;
     vintage?: number;

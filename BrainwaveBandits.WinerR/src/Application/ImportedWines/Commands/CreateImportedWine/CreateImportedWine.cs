@@ -10,7 +10,7 @@ using BrainwaveBandits.WinerR.Domain.Events;
 namespace BrainwaveBandits.WinerR.Application.ImportedWines.Commands.CreateImportedWine;
 public record CreateImportedWineCommand : IRequest<int>
 {
-    public required string WineID { get; init; }
+    public required string WineId { get; init; }
 
     public required string WineName { get; init; }
 
@@ -19,11 +19,11 @@ public record CreateImportedWineCommand : IRequest<int>
     public required string Vintages { get; init; }
 }
 
-public class CreateWineCommandCommandHandler : IRequestHandler<CreateImportedWineCommand, int>
+public class CreateImportedWineCommandCommandHandler : IRequestHandler<CreateImportedWineCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateWineCommandCommandHandler(IApplicationDbContext context)
+    public CreateImportedWineCommandCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
@@ -32,7 +32,7 @@ public class CreateWineCommandCommandHandler : IRequestHandler<CreateImportedWin
     {
         var entity = new ImportedWine
         {
-            WineID = request.WineID,
+            WineID = request.WineId,
             WineName = request.WineName,
             WineryName = request.WineryName,
             Vintages = request.Vintages
@@ -40,10 +40,15 @@ public class CreateWineCommandCommandHandler : IRequestHandler<CreateImportedWin
 
         entity.AddDomainEvent(new ImportedWineCreatedEvent(entity));
 
-        _context.ImportedWines.Add(entity);
+        if (!_context.ImportedWines.Any(x => x.WineID == entity.WineID))
+        {
+            _context.ImportedWines.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+            return entity.Id;
+        }
+
+        return -1;
     }
 }

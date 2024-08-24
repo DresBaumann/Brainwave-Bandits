@@ -6,6 +6,8 @@ public class WineBriefDto
 {
     public int Id { get; init; }
 
+    public int WineId { get; init; }
+
     public required string Name { get; init; }
 
     public string? Brand { get; init; }

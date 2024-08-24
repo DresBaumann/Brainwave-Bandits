@@ -36,7 +36,7 @@ public class UpdateWineCommandHandler : IRequestHandler<UpdateWineCommand>
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Name = request.Name;
-        entity.WineID = request.WineID;
+        entity.WineId = request.WineID;
         entity.Brand = request.Brand;
         entity.Vintage = request.Vintage;
         entity.Amount = request.Amount;

@@ -9,16 +9,19 @@ public class ImportWineTask
 {
     private readonly IApplicationDbContext _context;
     private readonly ISender _sender;
+    private readonly IWebHostEnvironment _hostingEnvironment;
 
-    public ImportWineTask(IApplicationDbContext context, ISender sender)
+    public ImportWineTask(IApplicationDbContext context, ISender sender, IWebHostEnvironment hostingEnvironment)
     {
         _context = context;
         _sender = sender;
+        _hostingEnvironment = hostingEnvironment;
     }
 
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        using (StreamReader reader = new StreamReader("wines.csv"))
+        string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "App_Data", "wines.csv");
+        using (StreamReader reader = new StreamReader(filePath))
         using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             csv.Context.RegisterClassMap<ImportedWineMap>();
@@ -28,7 +31,7 @@ public class ImportWineTask
             {
                 CreateImportedWineCommand createImportedWineCommand = new CreateImportedWineCommand
                 {
-                    WineID = importedWine.WineID,
+                    WineId = importedWine.WineID,
                     WineName = importedWine.WineName,
                     WineryName = importedWine.WineryName,
                     Vintages = importedWine.Vintages
