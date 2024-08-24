@@ -7,7 +7,7 @@ import { from, Subscription } from 'rxjs';
   templateUrl: './winelist.component.html'
 })
 export class WinelistComponent implements OnDestroy {
-    public wines: PaginatedListOfWineBriefDto;
+    public wines: PaginatedListOfWineBriefDto = new PaginatedListOfWineBriefDto();// Initialize with empty items array
     private subscription: Subscription;
 
     constructor(private client: WinesClient) {
