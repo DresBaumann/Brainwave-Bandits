@@ -2,6 +2,11 @@ from difflib import get_close_matches
 import pandas as pd
 from openai import OpenAI
 
+# load env variable
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 client = OpenAI()
 

@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModel
 import pickle
 
 # Load the label encoders
-with open("label_encoders.pkl", "rb") as f:
+with open("model/label_encoders.pkl", "rb") as f:
     label_encoders = pickle.load(f)
 
 
@@ -27,7 +27,7 @@ class SimpleNN(nn.Module):
 
 # Load your trained model
 model = SimpleNN(input_dim=389)
-model.load_state_dict(torch.load("model.pth", map_location=torch.device("cpu")))
+model.load_state_dict(torch.load("model/model.pth", map_location=torch.device("cpu")))
 model.eval()
 
 # Load your tokenizer and embedding model for text
