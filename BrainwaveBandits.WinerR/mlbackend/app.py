@@ -28,7 +28,7 @@ def predict():
     wine_features_list = wine_features_df[
         ["Type", "Elaborate", "Body", "Acidity", "ABV"]
     ].values
-    id_list = pd.read_csv("data/wine_small.csv")[["WineID"]].values.tolist()
+    id_list = pd.read_csv("data/wine_small.csv")[["WineID"]].astype(str).values.tolist()
 
     results = []
     for i, wine_features in enumerate(wine_features_list):

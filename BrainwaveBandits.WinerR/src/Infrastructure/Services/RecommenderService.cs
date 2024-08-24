@@ -18,7 +18,7 @@ namespace BrainwaveBandits.WinerR.Infrastructure.Services
             _endpointUrl = options.Value.EndpointUrl;
         }
 
-        public async Task<List<int>> GetWineRecommendationsAsync(Recipe recipe)
+        public async Task<List<string>> GetWineRecommendationsAsync(Recipe recipe)
         {
             // Serialize the recipe object to JSON
             StringContent requestContent = new StringContent(
@@ -46,7 +46,7 @@ namespace BrainwaveBandits.WinerR.Infrastructure.Services
             }
 
             // Filter the recommendations to get only the wines where is_pairing is true
-            List<int> pairedWineIds = wineRecommendations
+            List<string> pairedWineIds = wineRecommendations
                 .Where(r => r.IsPairing)               // Filter where is_pairing is true
                 .SelectMany(r => r.WineId)             // Extract the wine_id array
                 .ToList();                              // Convert to a list
@@ -58,6 +58,6 @@ namespace BrainwaveBandits.WinerR.Infrastructure.Services
     public class WineRecommendation
     {
         public bool IsPairing { get; set; }
-        public List<int> WineId { get; set; } = null!;
+        public List<string> WineId { get; set; } = null!;
     }
 }
