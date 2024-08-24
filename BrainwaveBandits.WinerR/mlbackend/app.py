@@ -16,7 +16,7 @@ label_encoders = get_label_encoders()
 @app.route("/predictwine", methods=["POST"])
 def predict():
     data = request.json
-    food_description = data["mainIngredient"]["name"]
+    food_description = data["MainIngredient"]["Name"]
     wine_features_df = pd.read_csv("data/wine_small.csv")[
         ["Type", "Elaborate", "Body", "Acidity", "ABV"]
     ]
