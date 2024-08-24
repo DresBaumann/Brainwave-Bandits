@@ -23,9 +23,9 @@ public class GetWineRecommendationQueryHandler : IRequestHandler<GetWineRecommen
     {
         var recipe = await _sender.Send(new GetRecipeFromDishNameQuery { DishName = request.DishName }, cancellationToken);
         
-        List<int> recommendedWineIds = await _recommenderService.GetWineRecommendationsAsync(recipe);
+        List<string> recommendedWineIds = await _recommenderService.GetWineRecommendationsAsync(recipe);
         
-        var wines = await _sender.Send(new GetWinesFromIdsQuery { Ids = new Collection<int>(recommendedWineIds) }, cancellationToken);
+        var wines = await _sender.Send(new GetWinesFromIdsQuery { Ids = new Collection<string>(recommendedWineIds) }, cancellationToken);
         
         Collection<WineBriefDto> recommendedWines = new Collection<WineBriefDto>();
         

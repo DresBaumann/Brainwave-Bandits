@@ -3,6 +3,6 @@
 namespace BrainwaveBandits.WinerR.Application.Common.Interfaces;
 public interface IRecommenderService
 {
-    Task<List<int>> GetWineRecommendationsAsync(Recipe request);
+    Task<List<string>> GetWineRecommendationsAsync(Recipe request);
 }
 
