@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Wine> Wines => Set<Wine>();
 
+    public DbSet<ImportedWine> ImportedWines => Set<ImportedWine>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

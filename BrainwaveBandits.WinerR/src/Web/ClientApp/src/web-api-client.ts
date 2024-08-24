@@ -39,7 +39,6 @@ export class RecipeClient {
     }
 
     protected processGetIRecipeFromDishName(response: Response): Promise<Recipe> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -97,7 +96,6 @@ export class TodoItemsClient {
     }
 
     protected processGetTodoItemsWithPagination(response: Response): Promise<PaginatedListOfTodoItemBriefDto> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -136,7 +134,6 @@ export class TodoItemsClient {
     }
 
     protected processCreateTodoItem(response: Response): Promise<number> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -178,7 +175,6 @@ export class TodoItemsClient {
     }
 
     protected processUpdateTodoItem(response: Response): Promise<void> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -212,7 +208,6 @@ export class TodoItemsClient {
     }
 
     protected processDeleteTodoItem(response: Response): Promise<void> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -250,7 +245,6 @@ export class TodoItemsClient {
     }
 
     protected processUpdateTodoItemDetail(response: Response): Promise<void> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -293,7 +287,6 @@ export class TodoListsClient {
     }
 
     protected processGetTodoLists(response: Response): Promise<TodosVm> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -332,7 +325,6 @@ export class TodoListsClient {
     }
 
     protected processCreateTodoList(response: Response): Promise<number> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -374,7 +366,6 @@ export class TodoListsClient {
     }
 
     protected processUpdateTodoList(response: Response): Promise<void> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -408,7 +399,6 @@ export class TodoListsClient {
     }
 
     protected processDeleteTodoList(response: Response): Promise<void> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -451,7 +441,6 @@ export class WeatherForecastsClient {
     }
 
     protected processGetWeatherForecasts(response: Response): Promise<WeatherForecast[]> {
-        
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -474,6 +463,168 @@ export class WeatherForecastsClient {
             });
         }
         return Promise.resolve<WeatherForecast[]>(null as any);
+    }
+}
+
+export class WinesClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getWinesWithPagination(pageNumber: number, pageSize: number): Promise<PaginatedListOfWineBriefDto> {
+        let url_ = this.baseUrl + "/api/Wines?";
+        if (pageNumber === undefined || pageNumber === null)
+            throw new Error("The parameter 'pageNumber' must be defined and cannot be null.");
+        else
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === undefined || pageSize === null)
+            throw new Error("The parameter 'pageSize' must be defined and cannot be null.");
+        else
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetWinesWithPagination(_response);
+        });
+    }
+
+    protected processGetWinesWithPagination(response: Response): Promise<PaginatedListOfWineBriefDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfWineBriefDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PaginatedListOfWineBriefDto>(null as any);
+    }
+
+    createWine(command: CreateWineCommand): Promise<number> {
+        let url_ = this.baseUrl + "/api/Wines";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateWine(_response);
+        });
+    }
+
+    protected processCreateWine(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
+    updateWine(id: number, command: UpdateWineCommand): Promise<void> {
+        let url_ = this.baseUrl + "/api/Wines/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateWine(_response);
+        });
+    }
+
+    protected processUpdateWine(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    deleteWine(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/api/Wines/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteWine(_response);
+        });
+    }
+
+    protected processDeleteWine(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
     }
 }
 
@@ -1146,6 +1297,238 @@ export interface IWeatherForecast {
     temperatureC?: number;
     temperatureF?: number;
     summary?: string | undefined;
+}
+
+export class PaginatedListOfWineBriefDto implements IPaginatedListOfWineBriefDto {
+    items?: WineBriefDto[];
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfWineBriefDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(WineBriefDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfWineBriefDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfWineBriefDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfWineBriefDto {
+    items?: WineBriefDto[];
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class WineBriefDto implements IWineBriefDto {
+    id?: number;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+    done?: boolean;
+
+    constructor(data?: IWineBriefDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.brand = _data["brand"];
+            this.vintage = _data["vintage"];
+            this.amount = _data["amount"];
+            this.done = _data["done"];
+        }
+    }
+
+    static fromJS(data: any): WineBriefDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WineBriefDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["brand"] = this.brand;
+        data["vintage"] = this.vintage;
+        data["amount"] = this.amount;
+        data["done"] = this.done;
+        return data;
+    }
+}
+
+export interface IWineBriefDto {
+    id?: number;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+    done?: boolean;
+}
+
+export class CreateWineCommand implements ICreateWineCommand {
+    wineID?: string;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+
+    constructor(data?: ICreateWineCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.wineID = _data["wineID"];
+            this.name = _data["name"];
+            this.brand = _data["brand"];
+            this.vintage = _data["vintage"];
+            this.amount = _data["amount"];
+        }
+    }
+
+    static fromJS(data: any): CreateWineCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateWineCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wineID"] = this.wineID;
+        data["name"] = this.name;
+        data["brand"] = this.brand;
+        data["vintage"] = this.vintage;
+        data["amount"] = this.amount;
+        return data;
+    }
+}
+
+export interface ICreateWineCommand {
+    wineID?: string;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+}
+
+export class UpdateWineCommand implements IUpdateWineCommand {
+    id?: number;
+    wineID?: string;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+    done?: boolean;
+
+    constructor(data?: IUpdateWineCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.wineID = _data["wineID"];
+            this.name = _data["name"];
+            this.brand = _data["brand"];
+            this.vintage = _data["vintage"];
+            this.amount = _data["amount"];
+            this.done = _data["done"];
+        }
+    }
+
+    static fromJS(data: any): UpdateWineCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateWineCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["wineID"] = this.wineID;
+        data["name"] = this.name;
+        data["brand"] = this.brand;
+        data["vintage"] = this.vintage;
+        data["amount"] = this.amount;
+        data["done"] = this.done;
+        return data;
+    }
+}
+
+export interface IUpdateWineCommand {
+    id?: number;
+    wineID?: string;
+    name?: string;
+    brand?: string | undefined;
+    vintage?: number;
+    amount?: number;
+    done?: boolean;
 }
 
 export class SwaggerException extends Error {

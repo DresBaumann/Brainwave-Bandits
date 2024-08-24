@@ -1,4 +1,5 @@
 using BrainwaveBandits.WinerR.Infrastructure.Data;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,7 @@ builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddWebServices();
+builder.Services.AddWebServices(builder.Configuration);
 builder.Services.AddMemoryCache();
 
 var app = builder.Build();
@@ -44,6 +45,8 @@ app.UseExceptionHandler(options => { });
 
 
 app.MapEndpoints();
+
+app.UseHangfireDashboard();
 
 app.Run();
 

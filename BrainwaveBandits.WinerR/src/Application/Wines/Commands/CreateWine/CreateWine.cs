@@ -6,6 +6,8 @@ namespace BrainwaveBandits.WinerR.Application.Wines.Commands.CreateWine;
 
 public record CreateWineCommand : IRequest<int>
 {
+    public required string WineID { get; init; }
+
     public required string Name { get; init; }
 
     public string? Brand { get; init; }
@@ -28,6 +30,7 @@ public class CreateWineCommandCommandHandler : IRequestHandler<CreateWineCommand
     {
         var entity = new Wine
         {
+            WineID = request.WineID,
             Name = request.Name,
             Brand = request.Brand,
             Vintage = request.Vintage,

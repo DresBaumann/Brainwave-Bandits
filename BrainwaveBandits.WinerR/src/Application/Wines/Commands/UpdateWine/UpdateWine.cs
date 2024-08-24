@@ -6,6 +6,8 @@ public record UpdateWineCommand : IRequest
 {
     public int Id { get; init; }
 
+    public required string WineID { get; init; }
+
     public required string Name { get; init; }
 
     public string? Brand { get; init; }
@@ -34,6 +36,7 @@ public class UpdateWineCommandHandler : IRequestHandler<UpdateWineCommand>
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Name = request.Name;
+        entity.WineID = request.WineID;
         entity.Brand = request.Brand;
         entity.Vintage = request.Vintage;
         entity.Amount = request.Amount;
