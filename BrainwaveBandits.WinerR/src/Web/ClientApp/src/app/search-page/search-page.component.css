@@ -1,107 +1,153 @@
 /* Container for the search page */
 .search-page-container {
-    padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Search bar container */
+.search-bar {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.search-bar label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Wrapper for the input and button */
+.input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.input-wrapper input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ced4da;
+  border-radius: 30px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: #007bff;
+}
+
+.input-wrapper button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-left: -60px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper button:hover {
+  background-color: #0056b3;
+}
+
+/* Search icon inside the button */
+.search-icon {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/622/622669.png'); /* Replace with a suitable search icon */
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+
+/* Wine Results Section */
+.wine-results {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.wine-results h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Wine cards grid */
+.wine-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.wine-card {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.wine-card:hover {
+  transform: translateY(-5px);
+}
+
+.wine-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wine-card p {
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.wine-card p strong {
+  font-weight: bold;
+}
+
+/* Styling for wine image */
+.wine-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* Loading screen */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-size: 18px;
+}
+
+.loading-screen p {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Spinner for loading animation */
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #007bff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
   }
-  
-  /* Search bar container */
-  .search-bar {
-    text-align: center;
-    margin-bottom: 30px;
+  100% {
+      transform: rotate(360deg);
   }
-  
-  .search-bar label {
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  /* Wrapper for the input and button */
-  .input-wrapper {
-    display: inline-flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .input-wrapper input {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ced4da;
-    border-radius: 30px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input-wrapper input:focus {
-    border-color: #007bff;
-  }
-  
-  .input-wrapper button {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    margin-left: -60px;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-wrapper button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Search icon inside the button */
-  .search-icon {
-    background-image: url('https://cdn-icons-png.flaticon.com/512/622/622669.png'); /* Replace with a suitable search icon */
-    background-size: cover;
-    width: 20px;
-    height: 20px;
-  }
-  
-  /* Wine Results Section */
-  .wine-results {
-    margin-top: 40px;
-    text-align: center;
-  }
-  
-  .wine-results h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  /* Wine cards grid */
-  .wine-cards {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .wine-card {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 300px;
-    text-align: left;
-  }
-  
-  .wine-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .wine-card p {
-    font-size: 16px;
-    color: #6c757d;
-  }
-  
-  .wine-card p strong {
-    font-weight: bold;
-  }
-  
+}

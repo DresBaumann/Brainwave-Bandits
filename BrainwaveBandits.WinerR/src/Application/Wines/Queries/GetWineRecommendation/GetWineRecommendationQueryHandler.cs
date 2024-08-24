@@ -36,7 +36,8 @@ public class GetWineRecommendationQueryHandler : IRequestHandler<GetWineRecommen
                 Amount = wine.Amount,
                 Brand = wine.Brand,
                 Id = wine.Id,
-                Name = wine.Name,
+                WineId = wine.WineId,
+                    Name = wine.Name,
                 Vintage = wine.Vintage
             });
         }

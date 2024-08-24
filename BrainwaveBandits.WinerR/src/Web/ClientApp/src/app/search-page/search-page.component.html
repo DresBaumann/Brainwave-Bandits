@@ -1,34 +1,45 @@
 <div class="search-page-container">
-    <!-- Search Bar Section -->
-    <div class="search-bar">
-      <label for="dish-search">Enter Dish Name:</label>
-      <div class="input-wrapper">
-        <input
-          id="dish-search"
-          type="text"
-          [(ngModel)]="dishName"
-          placeholder="Search for a dish..."
-          (keyup.enter)="searchDish()"
-        />
-        <button (click)="searchDish()">
-          <i class="search-icon"></i>
-        </button>
-      </div>
+  <!-- Search Bar Section -->
+  <div class="search-bar">
+    <label for="dish-search">Enter Dish Name:</label>
+    <div class="input-wrapper">
+      <input
+        id="dish-search"
+        type="text"
+        [(ngModel)]="dishName"
+        placeholder="Search for a dish..."
+        (keyup.enter)="searchDish()"
+      />
+      <button (click)="searchDish()">
+        <i class="search-icon"></i>
+      </button>
     </div>
-  
-    <!-- Wine Recommendations Section -->
-    <div class="wine-results" *ngIf="recommendedWines.length > 0">
-      <h2>Recommended Wines</h2>
-      <div class="wine-cards">
-        <div class="wine-card" *ngFor="let wine of recommendedWines">
-          <div class="wine-info">
-            <h3>{{ wine.name }}</h3>
-            <p><strong>Brand:</strong> {{ wine.brand || 'N/A' }}</p>
-            <p><strong>Vintage:</strong> {{ wine.vintage || 'N/A' }}</p>
-            <p><strong>Amount:</strong> {{ wine.amount || 'N/A' }}</p>
-          </div>
+  </div>
+
+  <!-- Loading Section -->
+  <div *ngIf="isLoading" class="loading-screen">
+    <div class="spinner"></div>
+    <p>Suche den perfekten Wein für dich...</p>
+  </div>
+
+  <!-- Wine Recommendations Section -->
+  <div class="wine-results" *ngIf="!isLoading && recommendedWines.length > 0">
+    <h2>Recommended Wines</h2>
+    <div class="wine-cards">
+      <div class="wine-card" *ngFor="let wine of recommendedWines">
+        <img
+          *ngIf="wine.wineId"
+          [src]="'assets/wines/' + wine.wineId + '.jpg'"
+          alt="{{ wine.name }}"
+          class="wine-image"
+        />
+        <div class="wine-info">
+          <h3>{{ wine.name }}</h3>
+          <p><strong>Brand:</strong> {{ wine.brand || 'N/A' }}</p>
+          <p><strong>Vintage:</strong> {{ wine.vintage || 'N/A' }}</p>
+          <p><strong>Amount:</strong> {{ wine.amount || 'N/A' }}</p>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
