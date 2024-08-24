@@ -18,35 +18,41 @@ export class ImportedWineClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    import(command: ImportWinesCommand): Promise<number> {
-        let url_ = this.baseUrl + "/api/ImportedWine";
+    search(searchQuery: string | null): Promise<ImportedWineSearchResultDto[]> {
+        let url_ = this.baseUrl + "/api/ImportedWine?";
+        if (searchQuery === undefined)
+            throw new Error("The parameter 'searchQuery' must be defined.");
+        else if(searchQuery !== null)
+            url_ += "SearchQuery=" + encodeURIComponent("" + searchQuery) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(command);
-
         let options_: RequestInit = {
-            body: content_,
-            method: "POST",
+            method: "GET",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processImport(_response);
+            return this.processSearch(_response);
         });
     }
 
-    protected processImport(response: Response): Promise<number> {
+    protected processSearch(response: Response): Promise<ImportedWineSearchResultDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ImportedWineSearchResultDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -54,7 +60,7 @@ export class ImportedWineClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<number>(null as any);
+        return Promise.resolve<ImportedWineSearchResultDto[]>(null as any);
     }
 }
 
@@ -678,9 +684,11 @@ export class WinesClient {
     }
 }
 
-export class ImportWinesCommand implements IImportWinesCommand {
+export class ImportedWineSearchResultDto implements IImportedWineSearchResultDto {
+    wineId?: string;
+    title?: string;
 
-    constructor(data?: IImportWinesCommand) {
+    constructor(data?: IImportedWineSearchResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -690,22 +698,30 @@ export class ImportWinesCommand implements IImportWinesCommand {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.wineId = _data["wineId"];
+            this.title = _data["title"];
+        }
     }
 
-    static fromJS(data: any): ImportWinesCommand {
+    static fromJS(data: any): ImportedWineSearchResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ImportWinesCommand();
+        let result = new ImportedWineSearchResultDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["wineId"] = this.wineId;
+        data["title"] = this.title;
         return data;
     }
 }
 
-export interface IImportWinesCommand {
+export interface IImportedWineSearchResultDto {
+    wineId?: string;
+    title?: string;
 }
 
 export class Recipe implements IRecipe {

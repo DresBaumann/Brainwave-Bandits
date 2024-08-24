@@ -7,31 +7,33 @@
   },
   "paths": {
     "/api/ImportedWine": {
-      "post": {
+      "get": {
         "tags": [
           "ImportedWine"
         ],
-        "operationId": "Import",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ImportWinesCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+        "operationId": "Search",
+        "parameters": [
+          {
+            "name": "SearchQuery",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportedWineSearchResultDto"
+                  }
                 }
               }
             }
@@ -521,9 +523,17 @@
   },
   "components": {
     "schemas": {
-      "ImportWinesCommand": {
+      "ImportedWineSearchResultDto": {
         "type": "object",
-        "additionalProperties": false
+        "additionalProperties": false,
+        "properties": {
+          "wineId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
       },
       "Recipe": {
         "type": "object",

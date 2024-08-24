@@ -1,5 +1,4 @@
-﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Commands.ImportWines;
-using BrainwaveBandits.WinerR.Web.Tasks.ImportWine;
+﻿using BrainwaveBandits.WinerR.Application.ImportedWines.Queries;
 
 namespace BrainwaveBandits.WinerR.Web.Endpoints;
 
@@ -8,11 +7,11 @@ public class ImportedWine : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .MapPost(Import);
+            .MapGet(Search);
     }
 
-    public Task<int> Import(ISender sender, ImportWinesCommand command)
+    public Task<IEnumerable<ImportedWineSearchResultDto>> Search(ISender sender, [AsParameters] SearchImportedWinesQuery query)
     {
-        return Task.FromResult(0);
+        return sender.Send(query);
     }
 }
