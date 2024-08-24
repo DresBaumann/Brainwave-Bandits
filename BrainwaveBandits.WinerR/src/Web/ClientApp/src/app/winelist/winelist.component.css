@@ -1,3 +1,117 @@
+/* Basic styling for the entire body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f1f2; /* Light blush background color */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Styling for the main title */
 h1 {
-    margin-bottom: 40px;
+    text-align: center;
+    color: #6d3f3f; /* Mild burgundy color */
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for better readability */
+}
+
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 900px; /* Adjusted for better readability */
+    background: linear-gradient(to right, #f5e0e6, #e3c6c4); /* Gradient from blush to cream */
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    animation: fadeIn 1s ease-out; /* Animation on container */
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+.wine-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wine-table thead {
+    background-color: #a07c7c; /* Soft burgundy color for the header */
+    color: #fff;
+}
+
+.wine-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.wine-table td {
+    padding: 15px;
+    border-bottom: 1px solid #d0a9a9; /* Light border color */
+    font-size: 0.9rem;
+}
+
+.wine-row {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.wine-row:hover {
+    background-color: #f8d6d8; /* Light hover color */
+    transform: scale(1.02);
+}
+
+/* Styling for components in the header */
+app-winesearch-component,
+app-microphone-button {
+    margin: 0 10px;
+}
+
+.app-microphone-button {
+    margin-left: auto;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .app-winesearch-component,
+    .app-microphone-button {
+        width: 100%; /* Full width for small screens */
+    }
+
+    .wine-table th,
+    .wine-table td {
+        font-size: 0.8rem; /* Smaller font size for small screens */
+        padding: 8px;
+    }
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

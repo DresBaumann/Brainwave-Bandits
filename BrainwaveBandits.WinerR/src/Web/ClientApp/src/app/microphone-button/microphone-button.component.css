@@ -1,34 +1,36 @@
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
+  height: 932px; /* Height based on iPhone 14 Pro Max */
+  width: 430px;  /* Width based on iPhone 14 Pro Max */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align content to the bottom */
 }
 
+/* Title styling */
 h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  width: 100%;
+  position: absolute;
+  top: 20px;
 }
 
+/* Container for the microphone button */
 .microphone-button-container {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  bottom: 20px; /* Distance from the bottom of the screen */
 }
 
-.microphone-button {
-  text-align: center;
-}
-
+/* Microphone button styling */
 .record-button {
-  background-color: #e63946;
+  background-color: #e63946; /* Red background color */
   border: none;
   color: white;
   padding: 20px;
@@ -42,19 +44,21 @@ h2 {
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   width: 80px;
   height: 80px;
-  position: relative;
 }
 
+/* Icon inside the button */
 .record-button i {
   font-size: 32px;
 }
 
+/* Hover effect */
 .record-button:hover {
   background-color: #d62828;
   transform: scale(1.1);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Active/pressed state */
 .record-button:active {
   background-color: #c2181b;
   transform: scale(1.05);

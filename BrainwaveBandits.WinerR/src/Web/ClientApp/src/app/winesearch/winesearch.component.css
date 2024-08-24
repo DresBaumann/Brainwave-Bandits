@@ -1,50 +1,94 @@
-.wine-search {
-    text-align: center;
-    margin: 20px;
-  }
-  
-  button {
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+/* Full-screen white background */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* White background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  input{
-    font-size: 18px;
-    padding: 10px 20px;
-    margin-right: 10px;
-    min-width: 300px;
-  }
-  
-  h2 {
-    margin: 40px 0;
-  }
+/* Container to hold all page content */
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ffffff; /* Solid white background */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for a modern look */
+  color: #333; /* Darker text color for contrast */
+  text-align: center;
+}
 
-  .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #000;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    margin-left: 10px;
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
+/* Headings */
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333; /* Darker text color */
+}
+
+/* Search input styling */
+.wine-search input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Light grey border */
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Spinner styling */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey border */
+  border-top: 4px solid #333; /* Darker border for the spinner */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+  color: #333; /* Darker text color */
+  border-bottom: 1px solid #ddd; /* Light grey border */
+}
+
+.table th {
+  background-color: #f8f8f8; /* Very light grey background for headers */
+}
+
+/* Button styling */
+button {
+  background-color: #333; /* Dark grey button color */
+  color: #ffffff; /* White text color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555; /* Slightly lighter grey for hover effect */
+}
+
+button:disabled {
+  background-color: #ccc; /* Grey for disabled state */
+  cursor: not-allowed;
+}
