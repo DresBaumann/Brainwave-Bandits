@@ -45,13 +45,21 @@ def extact_wine_names(transcribed_text):
 
 
 def match_wine_names(wine_names, wine_df):
-    matched_wines = {}
+    matched_wines = []
+    non_matched_wines = []
     for wine in wine_names:
         matches = get_close_matches(wine, wine_df["WineName"], n=1, cutoff=0.7)
         if matches:
-            matched_wines[wine] = matches[0]
+            matched_wine_name = matches[0]
+            wine_id = str(
+                wine_df.loc[wine_df["WineName"] == matched_wine_name, "WineID"].values[
+                    0
+                ]
+            )
+            matched_wines.append({"WineName": matched_wine_name, "WineID": wine_id})
+        else:
+            non_matched_wines.append({"WineName": wine})
 
-    non_matched_wines = set(wine_names) - set(matched_wines.keys())
     return matched_wines, non_matched_wines
 
 
