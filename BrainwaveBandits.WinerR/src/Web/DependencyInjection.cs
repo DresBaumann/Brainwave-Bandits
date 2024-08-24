@@ -2,6 +2,8 @@
 using BrainwaveBandits.WinerR.Application.Common.Interfaces;
 using BrainwaveBandits.WinerR.Infrastructure.Data;
 using BrainwaveBandits.WinerR.Web.Services;
+using BrainwaveBandits.WinerR.Web.Tasks.ImportWine;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -9,8 +11,21 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWebServices(this IServiceCollection services)
+    public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
+
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(connectionString);
+        });
+
+        services.AddHangfireServer();
+
+        services.AddScoped<ImportWineTask>();
+
         services.AddDatabaseDeveloperPageExceptionFilter();
 
         services.AddScoped<IUser, CurrentUser>();
