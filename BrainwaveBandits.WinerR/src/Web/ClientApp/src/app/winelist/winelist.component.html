@@ -13,8 +13,9 @@
     </div>
 
     <!-- Search Field Section -->
+    <!-- Listen for the wineAdded event -->
     <div class="search-container" [ngClass]="{'with-results': wines.items.length > 0}">
-      <app-winesearch-component></app-winesearch-component>
+      <app-winesearch-component (wineAdded)="onWineAdded()"></app-winesearch-component>
     </div>
   </div>
 
@@ -39,8 +40,8 @@
           <p><strong>Bestand: </strong> {{ wine.amount || 'N/A' }}</p>
         </div>
 
-        <!-- Drunk Wine Icon -->
-        <div class="drunk-wine-icon">
+        <!-- Drunk Wine Icon (Click Event) -->
+        <div class="drunk-wine-icon" (click)="onDeleteWine(wine.id)">
           <i class="fas fa-wine-bottle"></i> <!-- Replace with an appropriate wine bottle icon -->
         </div>
       </div>

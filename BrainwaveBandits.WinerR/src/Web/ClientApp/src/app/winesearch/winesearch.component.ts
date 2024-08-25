@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { CreateOrUpdateWinesByIdListCommand, ImportedWineClient, ImportedWineSearchResultDto, WinesClient } from '../web-api-client';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { debounceTime, filter, switchMap, finalize } from 'rxjs/operators'; // Import finalize operator
+import { debounceTime, filter, switchMap, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,9 @@ export class WinesearchComponent implements OnInit, OnDestroy {
     public loading = false; // Loading state
     private subscription: Subscription = new Subscription();
     public searchControl: FormControl = new FormControl('');
+
+    // EventEmitter to notify parent when a wine is added
+    @Output() wineAdded = new EventEmitter<void>();
 
     constructor(
         private importedWineclient: ImportedWineClient, 
@@ -59,6 +62,7 @@ export class WinesearchComponent implements OnInit, OnDestroy {
         ).subscribe({
             next: response => {
                 console.log(`Wine with ID ${wineId} has been successfully added/updated.`);
+                this.wineAdded.emit(); // Emit event to notify parent component
                 this.router.navigate(['/winelist']);
             },
             error: error => {
