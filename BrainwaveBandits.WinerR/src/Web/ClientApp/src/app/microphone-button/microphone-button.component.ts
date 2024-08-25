@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { WinesClient, FileParameter } from '../web-api-client';  // Import the WinesClient and FileParameter
 import * as RecordRTC from 'recordrtc';  // Import RecordRTC for recording
+import { finalize } from 'rxjs/operators';  // Import finalize operator
 
 @Component({
   selector: 'app-microphone-button',
@@ -12,6 +13,9 @@ export class MicrophoneButtonComponent implements OnInit {
   private stream: MediaStream | null = null;  // Media stream for recording
   isRecording: boolean = false;  // Flag to control the recording state
   isMicOn: boolean = false;  // State to track if the mic is on or off
+
+  // EventEmitter to notify parent component when a wine is added via voice
+  @Output() wineAdded = new EventEmitter<void>();
 
   constructor(private winesClient: WinesClient) { }  // Inject WinesClient
 
@@ -54,7 +58,7 @@ export class MicrophoneButtonComponent implements OnInit {
     if (this.isRecording && this.recordRTC) {
       this.isRecording = false;
       this.isMicOn = false;  // Mic is now off
-      
+
       // Stop recording
       this.recordRTC.stopRecording(() => {
         const audioBlob = this.recordRTC.getBlob();  // Get the audio Blob
@@ -68,8 +72,14 @@ export class MicrophoneButtonComponent implements OnInit {
           fileName: audioFile.name
         };
 
-        // Call the backend API
-        this.winesClient.createWineByVoice(fileParameter).subscribe(
+        // Call the backend API and reload inventory after the request is completed
+        this.winesClient.createWineByVoice(fileParameter).pipe(
+          finalize(() => {
+            // Reload the inventory after the voice wine is successfully added
+            console.log('Wine added by voice, reloading inventory.');
+            this.wineAdded.emit();  // Emit event to notify parent to reload the wine list
+          })
+        ).subscribe(
           (response) => {
             console.log('Audio file successfully sent to the server!', response);
           },

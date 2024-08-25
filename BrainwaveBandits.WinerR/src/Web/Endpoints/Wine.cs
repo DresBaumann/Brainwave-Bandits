@@ -41,7 +41,7 @@ public class Wines : EndpointGroupBase
     }
 
     [IgnoreAntiforgeryToken]
-    public async Task<int> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
+    public async Task<List<int>> CreateWineByVoice(ISender sender, [FromForm] IFormFile file)
     {
 
         var matchedWinesIds = new List<string>();
@@ -59,10 +59,7 @@ public class Wines : EndpointGroupBase
 
         }
 
-        await sender.Send(new CreateOrUpdateWinesByIdListCommand { WineIdList = matchedWinesIds });
-
-        return 1;
-        
+        return await sender.Send(new CreateOrUpdateWinesByIdListCommand { WineIdList = matchedWinesIds });
     }
 
 

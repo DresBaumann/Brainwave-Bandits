@@ -166,7 +166,7 @@ export interface IWinesClient {
     getWinesWithPagination(pageNumber: number, pageSize: number): Observable<PaginatedListOfWineBriefDto>;
     createWine(command: CreateWineCommand): Observable<number>;
     recommendWine(dishName: string | null): Observable<WineBriefDto[]>;
-    createWineByVoice(file: FileParameter | null | undefined): Observable<number>;
+    createWineByVoice(file: FileParameter | null | undefined): Observable<number[]>;
     createOrUpdateWineByWinesIdList(command: CreateOrUpdateWinesByIdListCommand): Observable<void>;
     updateWine(id: number, command: UpdateWineCommand): Observable<void>;
     deleteWine(id: number): Observable<void>;
@@ -353,7 +353,7 @@ export class WinesClient implements IWinesClient {
         return _observableOf(null as any);
     }
 
-    createWineByVoice(file: FileParameter | null | undefined): Observable<number> {
+    createWineByVoice(file: FileParameter | null | undefined): Observable<number[]> {
         let url_ = this.baseUrl + "/api/Wines/voice";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -377,14 +377,14 @@ export class WinesClient implements IWinesClient {
                 try {
                     return this.processCreateWineByVoice(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<number>;
+                    return _observableThrow(e) as any as Observable<number[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<number>;
+                return _observableThrow(response_) as any as Observable<number[]>;
         }));
     }
 
-    protected processCreateWineByVoice(response: HttpResponseBase): Observable<number> {
+    protected processCreateWineByVoice(response: HttpResponseBase): Observable<number[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -395,8 +395,14 @@ export class WinesClient implements IWinesClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {

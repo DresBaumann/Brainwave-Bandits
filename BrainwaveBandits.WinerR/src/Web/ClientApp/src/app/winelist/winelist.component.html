@@ -7,13 +7,13 @@
     <h2>Wein Hinzufügen</h2>
 
     <!-- Microphone Button Section -->
+    <!-- Listen for the wineAdded event from the microphone button -->
     <div class="mic-container">
-      <app-microphone-button></app-microphone-button>
+      <app-microphone-button (wineAdded)="onWineAdded()"></app-microphone-button>
       <span class="separator">oder</span>
     </div>
 
     <!-- Search Field Section -->
-    <!-- Listen for the wineAdded event -->
     <div class="search-container" [ngClass]="{'with-results': wines.items.length > 0}">
       <app-winesearch-component (wineAdded)="onWineAdded()"></app-winesearch-component>
     </div>
@@ -42,7 +42,7 @@
 
         <!-- Drunk Wine Icon (Click Event) -->
         <div class="drunk-wine-icon" (click)="onDeleteWine(wine.id)">
-          <i class="fas fa-wine-bottle"></i> <!-- Replace with an appropriate wine bottle icon -->
+          <i class="fas fa-wine-bottle"></i>
         </div>
       </div>
     </div>

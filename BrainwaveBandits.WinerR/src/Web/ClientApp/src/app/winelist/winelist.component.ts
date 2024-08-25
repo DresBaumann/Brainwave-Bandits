@@ -34,7 +34,7 @@ export class WinelistComponent implements OnDestroy {
         });
     }
 
-    // Method called when wine is added from the search component
+    // Method called when wine is added from either the microphone or search component
     onWineAdded() {
         this.loadWines(); // Reload the wine list after a new wine is added
     }
