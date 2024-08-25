@@ -1,24 +1,49 @@
-<h1>Mein Weinkeller</h1>
-<div class="container">
-  <div class="header">
-    <app-winesearch-component></app-winesearch-component>
-    <app-microphone-button></app-microphone-button>
+<div class="winelist-container">
+  <!-- Title Section -->
+  <h1>Mein Weinkeller</h1>
+
+  <!-- Add Wine Section -->
+  <div class="add-wine-section">
+    <h2>Wein Hinzufügen</h2>
+
+    <!-- Microphone Button Section -->
+    <div class="mic-container">
+      <app-microphone-button></app-microphone-button>
+      <span class="separator">oder</span>
+    </div>
+
+    <!-- Search Field Section -->
+    <div class="search-container" [ngClass]="{'with-results': wines.items.length > 0}">
+      <app-winesearch-component></app-winesearch-component>
+    </div>
   </div>
 
-  <table class="wine-table">
-    <thead>
-      <tr>
-        <th scope="col">Weingut</th>
-        <th scope="col">Wein</th>
-        <th scope="col">Anzahl</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let wine of wines.items" class="wine-row">
-        <td>{{wine.brand}}</td>
-        <td>{{wine.name}}</td>
-        <td>{{wine.amount}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Separator between the "Add Wine" and Inventory Section -->
+  <hr class="section-separator" />
+
+  <!-- Wine List Section -->
+  <div class="wine-results" *ngIf="wines.items.length > 0">
+    <h2>Mein Weinkeller</h2>
+    <div class="wine-cards">
+      <div class="wine-card" *ngFor="let wine of wines.items">
+        <img
+          *ngIf="wine.wineId"
+          [src]="'assets/wines/' + wine.wineId + '.jpg'"
+          alt="{{ wine.name }}"
+          class="wine-image"
+        />
+        <div class="wine-info">
+          <h3>{{ wine.name | slice:0:30 }}{{ wine.name.length > 30 ? '...' : '' }}</h3>
+          <p><strong>Winzer: </strong> {{ wine.brand || 'N/A' }}</p>
+          <p><strong>Jahrgang: </strong> {{ wine.vintage || 'N/A' }}</p>
+          <p><strong>Bestand: </strong> {{ wine.amount || 'N/A' }}</p>
+        </div>
+
+        <!-- Drunk Wine Icon -->
+        <div class="drunk-wine-icon">
+          <i class="fas fa-wine-bottle"></i> <!-- Replace with an appropriate wine bottle icon -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

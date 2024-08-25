@@ -1,117 +1,168 @@
-/* Basic styling for the entire body */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f1f2; /* Light blush background color */
-    margin: 0;
+/* Container for the winelist page */
+.winelist-container {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Title Section */
+  h1 {
+    color: #900E24FF;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Add Wine Section */
+  .add-wine-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .add-wine-section h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Microphone Button Section */
+  .mic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .mic-label {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  /* "Oder" separator */
+  .separator {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Search Field Section */
+  .search-container {
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .search-container.with-results {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  .search-container input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+  }
+  
+  .search-container input:focus {
+    border: none;
+    box-shadow: none;
+  }
+  
+  /* Separator between sections */
+  .section-separator {
+    width: 100%;
+    max-width: 600px;
+    border: none;
+    border-top: 2px solid #900E24FF;
+    margin: 40px 0;
+  }
+  
+  /* Wine Cards Section */
+  .wine-results h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .wine-cards {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* Styling for the main title */
-h1 {
-    text-align: center;
-    color: #6d3f3f; /* Mild burgundy color */
-    margin-bottom: 20px;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for better readability */
-}
-
-/* Container styling */
-.container {
-    width: 100%;
-    max-width: 900px; /* Adjusted for better readability */
-    background: linear-gradient(to right, #f5e0e6, #e3c6c4); /* Gradient from blush to cream */
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    box-sizing: border-box;
-    overflow: hidden;
-    animation: fadeIn 1s ease-out; /* Animation on container */
-}
-
-/* Header styling */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-/* Table styling */
-.wine-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.wine-table thead {
-    background-color: #a07c7c; /* Soft burgundy color for the header */
-    color: #fff;
-}
-
-.wine-table th {
-    padding: 15px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .wine-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;  /* Adjusted width for smaller image */
     text-align: left;
-    font-size: 1rem;
-}
-
-.wine-table td {
-    padding: 15px;
-    border-bottom: 1px solid #d0a9a9; /* Light border color */
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 130px; /* Adjusted height */
+  }
+  
+  .wine-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .wine-image {
+    width: 35%;  /* Smaller width for more text space */
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .wine-info {
+    padding: 10px;
+    width: 65%;  /* Adjusted width for more text space */
+  }
+  
+  .wine-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .wine-info p {
     font-size: 0.9rem;
-}
-
-.wine-row {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.wine-row:hover {
-    background-color: #f8d6d8; /* Light hover color */
-    transform: scale(1.02);
-}
-
-/* Styling for components in the header */
-app-winesearch-component,
-app-microphone-button {
-    margin: 0 10px;
-}
-
-.app-microphone-button {
-    margin-left: auto;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-    .header {
-        flex-direction: column; /* Stack elements vertically on small screens */
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .app-winesearch-component,
-    .app-microphone-button {
-        width: 100%; /* Full width for small screens */
-    }
-
-    .wine-table th,
-    .wine-table td {
-        font-size: 0.8rem; /* Smaller font size for small screens */
-        padding: 8px;
-    }
-}
-
-/* Keyframes for fade-in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    color: #6c757d;
+  }
+  
+  .wine-info p strong {
+    font-weight: bold;
+  }
+  
+  /* Drunk Wine Icon */
+  .drunk-wine-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #900E24FF;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .drunk-wine-icon:hover {
+    transform: scale(1.2);
+    color: #007bff;
+  }
+  

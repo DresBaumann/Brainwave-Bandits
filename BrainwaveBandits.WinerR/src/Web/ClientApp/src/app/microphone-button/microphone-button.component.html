@@ -1,10 +1,7 @@
-<h2>Weine hinzufügen</h2>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-<div class="microphone-button-container">
-    <div class="microphone-button">
-        <p><strong>Welche Weine möchtest du in deinen Weinkeller hinzufügen?</strong></p>
-        <button class="record-button" (click)="isRecording ? stopRecording() : startRecording()">
-            <i class="{{ isRecording ? 'bi bi-stop-fill' : 'bi bi-mic-fill' }}"></i>
-        </button>
-    </div>
-</div>
+<div class="mic-button-container">
+    <button class="mic-button" (click)="toggleMic()">
+      <i class="fas fa-microphone"></i>
+    </button>
+    <p class="mic-status">{{ isMicOn ? 'Mikrofon ist an' : 'Drücken um zu Sprechen' }}</p>
+  </div>
+  

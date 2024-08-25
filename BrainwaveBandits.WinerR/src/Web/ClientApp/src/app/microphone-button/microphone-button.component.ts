@@ -11,13 +11,24 @@ export class MicrophoneButtonComponent implements OnInit {
   private recordRTC: any;  // RecordRTC object
   private stream: MediaStream | null = null;  // Media stream for recording
   isRecording: boolean = false;  // Flag to control the recording state
+  isMicOn: boolean = false;  // State to track if the mic is on or off
 
   constructor(private winesClient: WinesClient) { }  // Inject WinesClient
 
   ngOnInit(): void {}
 
+  // Method to toggle microphone on/off
+  toggleMic() {
+    if (this.isMicOn) {
+      this.stopRecording();
+    } else {
+      this.startRecording();
+    }
+  }
+
   // Method to start recording
   startRecording() {
+    this.isMicOn = true;  // Mic is now on
     this.isRecording = true;
 
     // Request the user's audio input
@@ -34,6 +45,7 @@ export class MicrophoneButtonComponent implements OnInit {
       this.recordRTC.startRecording();
     }).catch((err) => {
       console.error('Error accessing microphone', err);
+      this.isMicOn = false;  // Reset mic state if there's an error
     });
   }
 
@@ -41,6 +53,7 @@ export class MicrophoneButtonComponent implements OnInit {
   stopRecording() {
     if (this.isRecording && this.recordRTC) {
       this.isRecording = false;
+      this.isMicOn = false;  // Mic is now off
       
       // Stop recording
       this.recordRTC.stopRecording(() => {
