@@ -14,7 +14,7 @@
     </div>
 
     <!-- Search Field Section -->
-    <div class="search-container" [ngClass]="{'with-results': wines.items.length > 0}">
+    <div class="search-container" [ngClass]="{'with-results': wines?.items?.length > 0}">
       <app-winesearch-component (wineAdded)="onWineAdded()"></app-winesearch-component>
     </div>
   </div>
@@ -23,7 +23,7 @@
   <hr class="section-separator" />
 
   <!-- Wine List Section -->
-  <div class="wine-results" *ngIf="wines.items.length > 0">
+  <div class="wine-results" *ngIf="wines?.items?.length > 0">
     <h2>Mein Weinkeller</h2>
     <div class="wine-cards">
       <div class="wine-card" *ngFor="let wine of wines.items">
